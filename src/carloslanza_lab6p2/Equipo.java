@@ -9,6 +9,13 @@ public class Equipo {
     private String estadio;
     private ArrayList<Jugador> jugadores = new ArrayList<>();
 
+    public Equipo(String pais, String nombre, String ciudad, String estadio) {
+        this.pais = pais;
+        this.nombre = nombre;
+        this.ciudad = ciudad;
+        this.estadio = estadio;
+    }
+
     public String getPais() {
         return pais;
     }

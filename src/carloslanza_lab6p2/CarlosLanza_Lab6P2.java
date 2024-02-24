@@ -1,27 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package carloslanza_lab6p2;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
-/**
- *
- * @author gabri
- */
 public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
 
     /**
      * Creates new form CarlosLanza_Lab6P21
      */
+    
+    DefaultTreeModel treeModel;
+    DefaultMutableTreeNode root;
+    
     public CarlosLanza_Lab6P2() {
         initComponents();
+        root = new DefaultMutableTreeNode("Equipos");
+        treeModel = new DefaultTreeModel(root);
+        equipos_tree.setModel(treeModel);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,6 +68,8 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         jugadores_pp = new javax.swing.JPopupMenu();
         modificarJugador_pp = new javax.swing.JMenuItem();
         eliminarJugador_pp = new javax.swing.JMenuItem();
+        equipos_pp = new javax.swing.JPopupMenu();
+        eliminarEquipo = new javax.swing.JMenuItem();
         bg_home = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         btn_crearEquipos = new javax.swing.JButton();
@@ -120,6 +124,11 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         });
 
         btn_agregarEquipo.setText("Agregar");
+        btn_agregarEquipo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_agregarEquipoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout bg_crearEquiposLayout = new javax.swing.GroupLayout(bg_crearEquipos);
         bg_crearEquipos.setLayout(bg_crearEquiposLayout);
@@ -207,9 +216,19 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         txt_equipos.setText("Equipos");
 
         btn_transferir.setText("Transferir ->");
+        btn_transferir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_transferirMouseClicked(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         equipos_tree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        equipos_tree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipos_treeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(equipos_tree);
 
         jugadores_list.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -377,6 +396,14 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         });
         jugadores_pp.add(eliminarJugador_pp);
 
+        eliminarEquipo.setText("Eliminar");
+        eliminarEquipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarEquipoActionPerformed(evt);
+            }
+        });
+        equipos_pp.add(eliminarEquipo);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(615, 470));
         setMinimumSize(new java.awt.Dimension(615, 470));
@@ -395,6 +422,11 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         btn_crearEquipos.setFocusable(false);
         btn_crearEquipos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_crearEquipos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_crearEquipos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_crearEquiposMouseClicked(evt);
+            }
+        });
         jToolBar1.add(btn_crearEquipos);
 
         btn_crearJugadores.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
@@ -402,6 +434,11 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         btn_crearJugadores.setFocusable(false);
         btn_crearJugadores.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_crearJugadores.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_crearJugadores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_crearJugadoresMouseClicked(evt);
+            }
+        });
         jToolBar1.add(btn_crearJugadores);
 
         btn_transferencias.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
@@ -409,6 +446,11 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         btn_transferencias.setFocusable(false);
         btn_transferencias.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_transferencias.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_transferencias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_transferenciasMouseClicked(evt);
+            }
+        });
         btn_transferencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_transferenciasActionPerformed(evt);
@@ -635,6 +677,104 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_eliminarJugador_ppActionPerformed
 
+    private void btn_agregarEquipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarEquipoMouseClicked
+        String pais = tf_paisEquipo.getText();
+        String nombreEquipo = tf_nombreEquipo.getText();
+        String ciudad = tf_ciudad.getText();
+        String estadio = tf_estadio.getText();
+        
+        Equipo equipo = new Equipo(pais, nombreEquipo, ciudad, estadio);
+        equipos.add(equipo);
+
+        DefaultMutableTreeNode paisNode = null;
+        DefaultMutableTreeNode equipoNode = new DefaultMutableTreeNode(nombreEquipo);
+        
+        for (int i = 0; i < root.getChildCount(); i++) {
+            if (root.getChildAt(i).toString().equals(pais)) {
+                paisNode = (DefaultMutableTreeNode) root.getChildAt(i);
+                break;
+            }
+        }
+        if (paisNode == null) {
+            paisNode = new DefaultMutableTreeNode(pais);
+            root.add(paisNode);
+        }
+
+        paisNode.add(equipoNode);
+
+        treeModel.reload();
+        
+        tf_ciudad.setText("");
+        tf_estadio.setText("");
+        tf_nombreEquipo.setText("");
+        tf_paisEquipo.setText("");
+        JOptionPane.showMessageDialog(frame_crearEquipos, "Equipo creado exitosamente!");
+    }//GEN-LAST:event_btn_agregarEquipoMouseClicked
+
+    private void equipos_treeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipos_treeMouseClicked
+        if (evt.isMetaDown()) {
+            TreePath path = equipos_tree.getPathForLocation(evt.getX(), evt.getY());
+            if (path != null) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+                if (node != null && node.getParent() != null && node.getParent().getParent() != null) {
+                    equipos_tree.setSelectionPath(path);
+                    equipos_pp.show(equipos_tree, evt.getX(), evt.getY());
+                }
+            }
+        }
+    }//GEN-LAST:event_equipos_treeMouseClicked
+
+    private void eliminarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarEquipoActionPerformed
+        TreePath selectedPath = equipos_tree.getSelectionPath();
+        if (selectedPath != null) {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+            DefaultMutableTreeNode parent = (DefaultMutableTreeNode) selectedNode.getParent();
+            if (parent != null) {
+                parent.remove(selectedNode);
+                ((DefaultTreeModel) equipos_tree.getModel()).reload(parent);
+            }
+        }
+    }//GEN-LAST:event_eliminarEquipoActionPerformed
+
+    private void btn_crearEquiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crearEquiposMouseClicked
+        frame_crearEquipos.setVisible(true);
+    }//GEN-LAST:event_btn_crearEquiposMouseClicked
+
+    private void btn_crearJugadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crearJugadoresMouseClicked
+        frame_crearJugadores.setVisible(true);
+    }//GEN-LAST:event_btn_crearJugadoresMouseClicked
+
+    private void btn_transferenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_transferenciasMouseClicked
+        frame_transferencias.setVisible(true);
+    }//GEN-LAST:event_btn_transferenciasMouseClicked
+
+    private void btn_transferirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_transferirMouseClicked
+        String nombre = jugadores_list.getSelectedValue();
+        TreePath selectedPath = equipos_tree.getSelectionPath();
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) selectedNode.getParent();
+        DefaultMutableTreeNode equipo = (DefaultMutableTreeNode) parent.getChildAt(0);
+        
+        for (int i = 0; i < jugadores.size(); i++) {
+            Jugador jugador = jugadores.get(i);
+            if (jugador.getNombre().equals(nombre)) {
+                String posicionJugador = jugador.getPosicion();
+                
+                DefaultMutableTreeNode posicion = new DefaultMutableTreeNode(posicionJugador);
+                DefaultMutableTreeNode nombreJugador = new DefaultMutableTreeNode(nombre);
+                
+                equipo.add(posicion);
+                posicion.add(nombreJugador);
+                
+                ((DefaultTreeModel) equipos_tree.getModel()).reload(parent);
+                break;
+            }
+        }
+        
+        
+        
+    }//GEN-LAST:event_btn_transferirMouseClicked
+
     public void llenarListaJugadores() {
         DefaultListModel modelo = new DefaultListModel();
         modelo.clear();
@@ -644,6 +784,8 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
 
         jugadores_list.setModel(modelo);
     }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -692,7 +834,9 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
     private javax.swing.JButton btn_transferencias;
     private javax.swing.JButton btn_transferir;
     private javax.swing.JComboBox<String> cb_posicion;
+    private javax.swing.JMenuItem eliminarEquipo;
     private javax.swing.JMenuItem eliminarJugador_pp;
+    private javax.swing.JPopupMenu equipos_pp;
     private javax.swing.JTree equipos_tree;
     private javax.swing.JDialog frame_crearEquipos;
     private javax.swing.JDialog frame_crearJugadores;
@@ -732,4 +876,5 @@ public class CarlosLanza_Lab6P2 extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     ArrayList<Jugador> jugadores = new ArrayList<>();
+    ArrayList<Equipo> equipos = new ArrayList<>();
 }
